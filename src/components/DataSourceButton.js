@@ -5,6 +5,7 @@ import {
   StyleSheet,
   ActivityIndicator,
 } from "react-native";
+import { Rfh } from "../helper";
 
 const DataSourceButton = ({
   title = "",
@@ -15,14 +16,14 @@ const DataSourceButton = ({
   const buttonStyle = [
     styles.button,
     isSelected && styles.selectedButton,
-    loading && styles.disabledButton, // Apply a disabled style if loading
+    loading && styles.disabledButton,
   ];
 
   return (
     <TouchableOpacity
       style={buttonStyle}
-      onPress={() => !loading && onPress()} // Prevent press during loading
-      disabled={loading} // Disable the button when loading
+      onPress={() => !loading && onPress()}
+      disabled={loading}
     >
       {loading ? (
         <ActivityIndicator size="small" color="#ffffff" />
@@ -36,18 +37,18 @@ const DataSourceButton = ({
 const styles = StyleSheet.create({
   button: {
     flex: 1,
-    paddingVertical: 12,
-    marginHorizontal: 8,
-    backgroundColor: "#4D8DD0", // Default color
+    paddingVertical: Rfh(2),
+    marginHorizontal: Rfh(2),
+    backgroundColor: "#4D8DD0",
     borderRadius: 8,
     alignItems: "center",
     justifyContent: "center",
   },
   selectedButton: {
-    backgroundColor: "#003C7A", // Darker color for selected state
+    backgroundColor: "#003C7A",
   },
   disabledButton: {
-    opacity: 0.7, // Visual feedback for disabled state
+    opacity: 0.7,
   },
   buttonText: {
     color: "#ffffff",
