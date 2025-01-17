@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { View, Text, StyleSheet } from "react-native";
 
 const CountryScoreRow = ({ countryName, averageScore }) => {
@@ -65,4 +65,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CountryScoreRow;
+export default memo(CountryScoreRow);

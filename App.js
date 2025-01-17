@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, TextInput, StyleSheet, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  StyleSheet,
+  ScrollView,
+  Keyboard,
+} from "react-native";
 import { CountryScoreRow, DataSourceButton } from "./src/components"; // Import reusable component
 
 // Test Data (Hardcoded)
@@ -19,7 +26,8 @@ const App = () => {
   const [averageScore, setAverageScore] = useState(null); // Null for no match
   const [dataSource, setDataSource] = useState("Test Data");
   const [countries, setCountries] = useState([]);
-
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
   // Aggregating scores for each country
   const aggregateScores = (data) => {
     const scores = {};
@@ -40,20 +48,35 @@ const App = () => {
 
   // Handle data source change
   const handleDataSourceChange = (source) => {
+    Keyboard.dismiss();
     setDataSource(source);
   };
 
   // Fetch data dynamically from server
   const fetchDataFromServer = async () => {
+    setIsLoading(true);
+    setError(null); // Reset any previous errors
     try {
       const response = await fetch(
         "https://assessments.reliscore.com/api/cric-scores/"
       );
+      if (!response.ok) {
+        throw new Error(`Server Error: ${response.statusText}`); // Handle HTTP errors
+      }
       const data = await response.json();
       const aggregatedData = aggregateScores(data);
       setCountries(aggregatedData);
+      handleSearchResultAfterSource(aggregatedData);
     } catch (error) {
       console.error("Error fetching server data:", error);
+      setError("Failed to fetch data. Please try again later."); // Set an error message for the user
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  const handleSearchResultAfterSource = (data) => {
+    if (countryName != "") {
+      handleInputChange(countryName, data);
     }
   };
 
@@ -64,14 +87,15 @@ const App = () => {
     } else {
       const aggregatedData = aggregateScores(testData);
       setCountries(aggregatedData);
+      handleSearchResultAfterSource(aggregatedData);
     }
   }, [dataSource]);
 
-  const handleInputChange = (name) => {
+  const handleInputChange = (name, data) => {
     setCountryName(name);
 
     // Look for exact match of country
-    const country = countries.find(
+    const country = (data ?? countries).find(
       (c) => c.name.toLowerCase() === name.toLowerCase()
     );
 
@@ -97,6 +121,7 @@ const App = () => {
           title="Use Server Data"
           isSelected={dataSource === "Server Data"}
           onPress={() => handleDataSourceChange("Server Data")}
+          loading={isLoading}
         />
       </View>
       {/* Country Search Input */}
@@ -108,6 +133,14 @@ const App = () => {
         placeholderTextColor="#8a8a8a"
       />
       {/* Display Country and Average Score */}
+      {error !== null && (
+        <View>
+          <Text>
+            Oops, got unexpected issue , click the Server Data button again to
+            load data
+          </Text>
+        </View>
+      )}
       {countryName && (
         <CountryScoreRow
           countryName={countryName}

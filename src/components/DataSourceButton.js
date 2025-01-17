@@ -1,13 +1,34 @@
-import React from "react";
-import { TouchableOpacity, Text, StyleSheet } from "react-native";
+import React, { memo } from "react";
+import {
+  TouchableOpacity,
+  Text,
+  StyleSheet,
+  ActivityIndicator,
+} from "react-native";
 
-const DataSourceButton = ({ title="", isSelected=false, onPress = () => {} }) => {
+const DataSourceButton = ({
+  title = "",
+  isSelected = false,
+  onPress = () => {},
+  loading = false,
+}) => {
+  const buttonStyle = [
+    styles.button,
+    isSelected && styles.selectedButton,
+    loading && styles.disabledButton, // Apply a disabled style if loading
+  ];
+
   return (
     <TouchableOpacity
-      style={[styles.button, isSelected && styles.selectedButton]}
-      onPress={onPress}
+      style={buttonStyle}
+      onPress={() => !loading && onPress()} // Prevent press during loading
+      disabled={loading} // Disable the button when loading
     >
-      <Text style={styles.buttonText}>{title}</Text>
+      {loading ? (
+        <ActivityIndicator size="small" color="#ffffff" />
+      ) : (
+        <Text style={styles.buttonText}>{title}</Text>
+      )}
     </TouchableOpacity>
   );
 };
@@ -16,19 +37,23 @@ const styles = StyleSheet.create({
   button: {
     flex: 1,
     paddingVertical: 12,
-    marginHorizontal: 10,
-    backgroundColor: "#007bff",
+    marginHorizontal: 8,
+    backgroundColor: "#4D8DD0", // Default color
     borderRadius: 8,
     alignItems: "center",
+    justifyContent: "center",
   },
   selectedButton: {
-    backgroundColor: "#0056b3",
+    backgroundColor: "#003C7A", // Darker color for selected state
+  },
+  disabledButton: {
+    opacity: 0.7, // Visual feedback for disabled state
   },
   buttonText: {
-    color: "#fff",
+    color: "#ffffff",
     fontSize: 16,
     fontWeight: "600",
   },
 });
 
-export default DataSourceButton;
+export default memo(DataSourceButton);
