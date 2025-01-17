@@ -1,13 +1,6 @@
 import React, { useState, useEffect } from "react";
-import {
-  View,
-  Text,
-  TextInput,
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
-} from "react-native";
-import { CountryScoreRow } from "./src/components"; // Import reusable component
+import { View, Text, TextInput, StyleSheet, ScrollView } from "react-native";
+import { CountryScoreRow, DataSourceButton } from "./src/components"; // Import reusable component
 
 // Test Data (Hardcoded)
 const testData = [
@@ -93,29 +86,19 @@ const App = () => {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.header}>Cricket Batsman's Average Scores</Text>
-
       {/* Data Source Selection Buttons */}
       <View style={styles.buttonContainer}>
-        <TouchableOpacity
-          style={[
-            styles.button,
-            dataSource === "Test Data" && styles.selectedButton,
-          ]}
+        <DataSourceButton
+          title="Use Test Data"
+          isSelected={dataSource === "Test Data"}
           onPress={() => handleDataSourceChange("Test Data")}
-        >
-          <Text style={styles.buttonText}>Use Test Data</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[
-            styles.button,
-            dataSource === "Server Data" && styles.selectedButton,
-          ]}
+        />
+        <DataSourceButton
+          title="Use Server Data"
+          isSelected={dataSource === "Server Data"}
           onPress={() => handleDataSourceChange("Server Data")}
-        >
-          <Text style={styles.buttonText}>Use Server Data</Text>
-        </TouchableOpacity>
+        />
       </View>
-
       {/* Country Search Input */}
       <TextInput
         style={styles.input}
@@ -124,9 +107,13 @@ const App = () => {
         onChangeText={handleInputChange}
         placeholderTextColor="#8a8a8a"
       />
-
       {/* Display Country and Average Score */}
-      <CountryScoreRow countryName={countryName} averageScore={averageScore} />
+      {countryName && (
+        <CountryScoreRow
+          countryName={countryName}
+          averageScore={averageScore}
+        />
+      )}
     </ScrollView>
   );
 };
