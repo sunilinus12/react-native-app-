@@ -1,12 +1,14 @@
 import React, { memo } from "react";
 import { View, Text, StyleSheet } from "react-native";
+import { screenWidth } from "../helper";
 
 const CountryScoreRow = ({ countryName, averageScore }) => {
   const barWidth = Math.max(2 * averageScore, 10); // Ensure the width is at least 10px
+  const isSmallWidth = screenWidth() < 300;
   return (
-    <View style={styles.row}>
+    <View style={[styles.row, isSmallWidth && styles.smallRow]}>
       <Text style={styles.countryName}>{countryName}</Text>
-      <Text style={styles.score}>
+      <Text style={[styles.score, isSmallWidth && { flex: 2 }]}>
         {averageScore !== null ? averageScore : "-"}
       </Text>
       {averageScore !== null && (
@@ -24,6 +26,11 @@ const CountryScoreRow = ({ countryName, averageScore }) => {
 };
 
 const styles = StyleSheet.create({
+  smallRow: {
+    flexDirection: "column",
+    flex: 0.2,
+    alignItems: "center",
+  },
   row: {
     flexDirection: "row",
     alignItems: "center",
