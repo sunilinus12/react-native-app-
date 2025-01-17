@@ -5,22 +5,22 @@ import {
   TextInput,
   StyleSheet,
   ScrollView,
-  Button,
+  TouchableOpacity,
 } from "react-native";
-import { CountryScoreRow } from "./src/screens"; // Import reusable component
+import { CountryScoreRow } from "./src/components"; // Import reusable component
+
+// Test Data (Hardcoded)
+const testData = [
+  ["Pakistan", 23],
+  ["Pakistan", 127],
+  ["India", 3],
+  ["India", 71],
+  ["Australia", 31],
+  ["India", 22],
+  ["Pakistan", 81],
+];
 
 const App = () => {
-  // Test Data (Hardcoded)
-  const testData = [
-    ["Pakistan", 23],
-    ["Pakistan", 127],
-    ["India", 3],
-    ["India", 71],
-    ["Australia", 31],
-    ["India", 22],
-    ["Pakistan", 81],
-  ];
-
   // State variables
   const [countryName, setCountryName] = useState(""); // User input
   const [averageScore, setAverageScore] = useState(null); // Null for no match
@@ -96,14 +96,24 @@ const App = () => {
 
       {/* Data Source Selection Buttons */}
       <View style={styles.buttonContainer}>
-        <Button
-          title="Use Test Data"
+        <TouchableOpacity
+          style={[
+            styles.button,
+            dataSource === "Test Data" && styles.selectedButton,
+          ]}
           onPress={() => handleDataSourceChange("Test Data")}
-        />
-        <Button
-          title="Use Server Data"
+        >
+          <Text style={styles.buttonText}>Use Test Data</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[
+            styles.button,
+            dataSource === "Server Data" && styles.selectedButton,
+          ]}
           onPress={() => handleDataSourceChange("Server Data")}
-        />
+        >
+          <Text style={styles.buttonText}>Use Server Data</Text>
+        </TouchableOpacity>
       </View>
 
       {/* Country Search Input */}
@@ -112,36 +122,11 @@ const App = () => {
         placeholder="Enter Country Name"
         value={countryName} // Show typed input
         onChangeText={handleInputChange}
+        placeholderTextColor="#8a8a8a"
       />
-      {/* Display Country and Average Score */}
-      {averageScore === null ? (
-        <View style={styles.row}>
-          <Text style={styles.text}>{countryName}</Text>
-          <Text style={styles.text}>-</Text>
-        </View>
-      ) : (
-        <View style={styles.row}>
-          <Text style={styles.text}>{countryName}</Text>
-          <Text style={styles.text}>{averageScore}</Text>
-          {averageScore !== null && (
-            <View
-              style={[
-                styles.blueBar,
-                { width: `${2 * averageScore}px` }, // Dynamic width of the bar
-              ]}
-            />
-          )}
-        </View>
-      )}
 
-      {/* List of All Countries */}
-      {countries.map((country, index) => (
-        <CountryScoreRow
-          key={index}
-          name={country.name}
-          averageScore={country.averageScore}
-        />
-      ))}
+      {/* Display Country and Average Score */}
+      <CountryScoreRow countryName={countryName} averageScore={averageScore} />
     </ScrollView>
   );
 };
@@ -150,39 +135,69 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
+    backgroundColor: "#f9f9f9",
   },
   header: {
-    fontSize: 24,
-    fontWeight: "bold",
+    fontSize: 26,
+    fontWeight: "700",
     textAlign: "center",
     marginBottom: 20,
+    color: "#333",
   },
   input: {
-    height: 40,
-    borderColor: "gray",
+    height: 50,
+    borderColor: "#ccc",
     borderWidth: 1,
-    borderRadius: 5,
+    borderRadius: 8,
     marginBottom: 20,
-    paddingLeft: 10,
+    paddingHorizontal: 15,
+    fontSize: 16,
+    backgroundColor: "#fff",
   },
   row: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 10,
+    marginBottom: 15,
+    backgroundColor: "#fff",
+    padding: 10,
+    borderRadius: 8,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
   },
   text: {
     flex: 1,
     fontSize: 16,
+    color: "#333",
   },
   blueBar: {
-    height: 10,
-    backgroundColor: "blue",
-    borderRadius: 5,
+    height: 12,
+    backgroundColor: "#4A90E2",
+    borderRadius: 6,
+    marginLeft: 10,
   },
   buttonContainer: {
-    marginBottom: 20,
     flexDirection: "row",
-    justifyContent: "space-around",
+    justifyContent: "space-between",
+    marginBottom: 25,
+  },
+  button: {
+    flex: 1,
+    paddingVertical: 12,
+    marginHorizontal: 10,
+    backgroundColor: "#007bff",
+    borderRadius: 8,
+    alignItems: "center",
+  },
+  buttonText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "600",
+  },
+  selectedButton: {
+    backgroundColor: "#0056b3",
   },
 });
 
