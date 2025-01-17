@@ -8,6 +8,7 @@ import {
   Keyboard,
 } from "react-native";
 import { CountryScoreRow, DataSourceButton } from "./src/components"; // Import reusable component
+import { fontResizer, Rfh, Rfw } from "./src/helper";
 
 // Test Data (Hardcoded)
 const testData = [
@@ -154,70 +155,32 @@ const App = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+    padding: Rfw(4),
     backgroundColor: "#f9f9f9",
   },
   header: {
-    fontSize: 26,
+    fontSize: fontResizer(19),
     fontWeight: "700",
     textAlign: "center",
     marginBottom: 20,
     color: "#333",
   },
   input: {
-    height: 50,
+    height: Rfh(5),
     borderColor: "#ccc",
     borderWidth: 1,
     borderRadius: 8,
     marginBottom: 20,
-    paddingHorizontal: 15,
-    fontSize: 16,
+    paddingHorizontal: Rfh(1.1),
+    fontSize: fontResizer(10),
     backgroundColor: "#fff",
+    fontWeight: "400",
   },
-  row: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 15,
-    backgroundColor: "#fff",
-    padding: 10,
-    borderRadius: 8,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
-  },
-  text: {
-    flex: 1,
-    fontSize: 16,
-    color: "#333",
-  },
-  blueBar: {
-    height: 12,
-    backgroundColor: "#4A90E2",
-    borderRadius: 6,
-    marginLeft: 10,
-  },
+
   buttonContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginBottom: 25,
-  },
-  button: {
-    flex: 1,
-    paddingVertical: 12,
-    marginHorizontal: 10,
-    backgroundColor: "#007bff",
-    borderRadius: 8,
-    alignItems: "center",
-  },
-  buttonText: {
-    color: "#fff",
-    fontSize: 16,
-    fontWeight: "600",
-  },
-  selectedButton: {
-    backgroundColor: "#0056b3",
+    marginBottom: Rfh(5),
   },
 });
 

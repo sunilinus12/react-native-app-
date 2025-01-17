@@ -1,5 +1,5 @@
 import { Dimensions } from "react-native";
-
+import { RFValue } from "react-native-responsive-fontsize";
 /**
  * Get the screen's width.
  * @returns {number} - The screen width in pixels.
@@ -24,7 +24,7 @@ const screenHeight = () => {
 const Rfw = (percentage) => {
   // Ensure percentage is within valid range
   if (percentage < 0 || percentage > 100) {
-    throw new Error("Percentage should be between 0 and 100.");
+    return;
   }
   return (screenWidth() * percentage) / 100;
 };
@@ -37,9 +37,20 @@ const Rfw = (percentage) => {
 const Rfh = (percentage) => {
   // Ensure percentage is within valid range
   if (percentage < 0 || percentage > 100) {
-    throw new Error("Percentage should be between 0 and 100.");
+    return;
   }
   return (screenHeight() * percentage) / 100;
 };
+/**
+ * Get dynamic font size based on screen width using RFPercentage.
+ * @param {number} percentage - The percentage of the screen width for font size (0-100).
+ * @returns {number} - The calculated font size in responsive units.
+ */
+const fontResizer = (percentage) => {
+  if (percentage < 0 || percentage > 100) {
+    return;
+  }
+  return RFValue(percentage, 580); // Dynamic font size based on screen percentage
+};
 
-export { screenWidth, screenHeight, Rfw, Rfh };
+export { screenWidth, screenHeight, Rfw, Rfh, fontResizer };

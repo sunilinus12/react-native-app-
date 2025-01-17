@@ -5,7 +5,7 @@ import {
   StyleSheet,
   ActivityIndicator,
 } from "react-native";
-import { Rfh } from "../helper";
+import { fontResizer, Rfh } from "../helper";
 
 const DataSourceButton = ({
   title = "",
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: "#ffffff",
-    fontSize: 16,
+    fontSize: fontResizer(10),
     fontWeight: "600",
   },
 });
