@@ -40,7 +40,7 @@ Follow these steps to set up the project locally:
 git clone <repository-url>
 
 # Navigate to the project directory
-cd <project-directory>
+cd <project-directory> && yarn set version 3.6.2
 
 # Install dependencies
 yarn install # Ensure Yarn version is 3.6.2
