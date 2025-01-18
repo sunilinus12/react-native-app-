@@ -37,12 +37,13 @@ const DataSourceButton = ({
 const styles = StyleSheet.create({
   button: {
     flex: 1,
-    paddingVertical: Rfh(2),
+    // paddingVertical: Rfh(2),
     marginHorizontal: Rfh(2),
     backgroundColor: "#4D8DD0",
     borderRadius: 8,
     alignItems: "center",
     justifyContent: "center",
+    height: Rfh(10),
   },
   selectedButton: {
     backgroundColor: "#003C7A",
