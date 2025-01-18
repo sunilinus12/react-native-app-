@@ -1,10 +1,10 @@
 import React, { memo } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Platform } from "react-native";
 import { fontResizer, Rfh, Rfw, screenWidth } from "../helper";
 
 const CountryScoreRow = ({ countryName, averageScore }) => {
   const barWidth = Math.max(2 * averageScore, 10);
-  const isSmallWidth = screenWidth() < 300;
+  const isSmallWidth = Platform.OS == "web" ? screenWidth() < 500 : false;
   return (
     <View style={[styles.row, isSmallWidth && styles.smallRow]}>
       <Text style={styles.countryName}>{countryName}</Text>
