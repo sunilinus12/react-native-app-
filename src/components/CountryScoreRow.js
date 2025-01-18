@@ -1,6 +1,6 @@
 import React, { memo } from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { Rfh, Rfw, screenWidth } from "../helper";
+import { fontResizer, Rfh, Rfw, screenWidth } from "../helper";
 
 const CountryScoreRow = ({ countryName, averageScore }) => {
   const barWidth = Math.max(2 * averageScore, 10);
@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
   },
   countryName: {
     flex: 2,
-    fontSize: 20,
+    fontSize: fontResizer(12),
     fontWeight: "500",
     color: "#2C3E50",
     letterSpacing: 0.5,
@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
   },
   score: {
     flex: 1,
-    fontSize: 18,
+    fontSize: fontResizer(12),
     fontWeight: "500",
     color: "#34495E",
     textAlign: "center",
