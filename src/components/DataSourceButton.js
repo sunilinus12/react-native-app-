@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: "#ffffff",
-    fontSize: fontResizer(10),
+    fontSize: fontResizer(8),
     fontWeight: "600",
   },
 });
